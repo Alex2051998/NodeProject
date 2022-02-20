@@ -38,34 +38,36 @@ const onlineUsers = [
 
 
 
-// let nameInPersonUsers;
-// for (let i of inPersonUsers){
-//     nameInPersonUsers = i.name;
-//     fs.appendFile(path.join(__dirname, 'main', 'inPerson', 'file.txt'),`\nName: ${nameInPersonUsers}`, (err) => {
-//         if(err){
-//             console.log(err);
-//         }else{
-//             console.log(nameInPersonUsers);
-//         }
-//     })
-//
-// }
-//
-//
-// let nameOnlineUsers;
-//
-// for (let i of onlineUsers){
-//     nameOnlineUsers = i.name;
-//     fs.appendFile(path.join(__dirname, 'main', 'online', 'file.txt'),`\nName: ${nameOnlineUsers}`, (err) => {
-//         if(err){
-//             console.log(err);
-//         }else{
-//             console.log(nameOnlineUsers);
-//         }
-//     })
-// }
+let nameInPersonUsers;
+for (let i of inPersonUsers){
+    nameInPersonUsers = i.name;
+    fs.writeFile(path.join(__dirname, 'main', 'inPerson', 'file.txt'),`\nName: ${nameInPersonUsers}`, (err) => {
+        if(err){
+            console.log(err);
+        }else{
+            console.log(nameInPersonUsers);
+        }
+    })
+
+}
+
+
+let nameOnlineUsers;
+
+
+for (let i of onlineUsers){
+    nameOnlineUsers = i.name;
+    fs.writeFile(path.join(__dirname, 'main', 'online', 'file.txt'),`\nName: ${nameOnlineUsers}`, (err) => {
+        if(err){
+            console.log(err);
+        }else{
+            console.log(nameOnlineUsers);
+        }
+    })
+}
 
 function reset() {
+
     fs.truncate(path.join(__dirname, 'main', 'inPerson', 'file.txt'), (err) => {
         if(err){
             console.log(err);
@@ -105,3 +107,4 @@ function reset() {
 }
 
 reset();
+
