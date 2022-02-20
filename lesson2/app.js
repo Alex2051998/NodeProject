@@ -14,6 +14,19 @@ app.set('views', path.join(__dirname, 'static'));
 
 const users = [];
 
+app.get('/signIn', (req, res)=> {
+    res.render('signIn');
+})
+
+app.post('/signIn', ({ body }, res) => {
+    const user = users.find(user => user.email === body.email && user.password === body.password);
+    if (!user) {
+        res.redirect('/error');
+        return;
+    }
+
+    res.redirect(`/users/${user.id}`);
+});
 
 app.get('/login', (req, res) => {
     res.render('login');
