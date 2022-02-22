@@ -19,13 +19,15 @@ app.get('/signIn', (req, res)=> {
 })
 
 app.post('/signIn', ({ body }, res) => {
-    const user = users.find(user => user.email === body.email && user.password === body.password);
-    if (!user) {
+    const user = users.find(user =>  user.email === body.email && user.password === body.password);
+    if (user) {
+        res.redirect(`/users/${user.id}`);
+
+    }else{
         res.redirect('/error');
         return;
     }
 
-    res.redirect(`/users/${user.id}`);
 });
 
 app.get('/login', (req, res) => {
