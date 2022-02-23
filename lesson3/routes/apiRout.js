@@ -1,13 +1,18 @@
-const { Router } = require('express');
-const userRout = require('./userRout');
-const userLogin = require('./loginRout');
-const signInRout = require('./signInRout');
+const router = require('express').Router();
 
-const routes = Router();
+const loginRouter = require('./loginRout');
+const userRouter = require('./userRout');
+const signInRouter = require('./signInRout');
 
-routes.use('/users', userRout);
-routes.use('/login', userLogin);
-routes.use('/signIn', signInRout);
+router.use('/login', loginRouter);
+router.use('/users', userRouter);
+router.use('/signIn', signInRouter);
 
+router.get('/error', ({ query }, res) => {
+    res.render('error', { error: query.error });
+});
+router.use((req, res) => {
+    res.render('notFound');
+});
 
-module.exports = routes;
+module.exports = router;

@@ -1,19 +1,9 @@
-const {Router} = require('express');
-const users= require('../dbUsers/users');
+const router = require('express').Router();
 
-const signInRout = Router();
+const { signInController } = require('../controller');
+const { signInMiddleware } = require('../middleware');
 
-signInRout.get('/', (req, res)=> {
-    res.render('signIn');
-});
+router.get('/', signInController.getFormSignIn);
+router.post('/', signInMiddleware.checkUserAuth, signInController.signIn);
 
-signInRout.post('/', ({ body }, res) => {
-    const user = users.some(user =>  user.email === body.email && user.password === body.password);
-    if (!user) {
-        res.redirect('/error');
-        return;
-    }
-    res.redirect(`/users/${user.id}`);
-
-
-});
+module.exports = router;

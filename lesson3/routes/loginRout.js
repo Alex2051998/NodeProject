@@ -1,19 +1,9 @@
-const { Router } = require('express');
-const users= require('../dbUsers/users');
+const router = require('express').Router();
 
-const loginRout = Router();
+const { loginController } = require('../controller');
+const { userMiddleware } = require('../middleware');
 
-loginRout.get('/', (req, res) => {
-    res.render('login');
-});
+router.get('/', loginController.getCreateUserForm);
+router.post('/', userMiddleware.isUserDataValid, loginController.createUser);
 
-loginRout.post('/', (req, res)=>{
-    const someUser = users.some(user => user.email === req.body.email);
-    if(someUser){
-        res.render('err');
-    }else{
-        users.push({ ...req.body, id: users.length ? users[users.length - 1].id + 1 : 1 });
-        res.redirect('/users')
-    }
-
-});
+module.exports = router;

@@ -1,31 +1,17 @@
-const { Router } = require('express');
-const users= require('../dbUsers/users');
+const router = require('express').Router();
 
-const userRout = Router();
+const { userController } = require('../controller');
+const { userMiddleware } = require('../middleware');
 
-userRout.get('/', ({ query }, res) => {
-    if (Object.keys(query).length) {
-        let usersArray = [...users];
-        if (query.city) {
-            usersArray = usersArray.filter(user => user.city === query.city);
-        }
-        if (query.age) {
-            usersArray = usersArray.filter(user => user.age === query.age);
-        }
+router.get('/', userController.getAllUsers);
 
-        res.render('users', { users: usersArray });
-        return;
-    }
+router.get('/:userId',
+    userMiddleware.isUserIdValid,
+    userMiddleware.isUserExist,
+    userController.getUserById
+);
+router.post('/:userId',
+    userMiddleware.isUserIdValid,
+    userController.deleteUserById);
 
-    res.render('users', { users });
-});
-
-userRout.get('/:userId',({ params }, res) => {
-    const user = users.find(user => user.id === +params.userId);
-    if (!user) {
-        res.redirect('/error');
-        return;
-    }
-
-    res.render('user', { user });
-});
+module.exports = router;
